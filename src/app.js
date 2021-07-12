@@ -16,4 +16,15 @@ app.get("/shopping", async (req, res) => {
     }
 });
 
+app.post("/shopping", async (req, res) => {
+    try {
+        const newItem = req.body;
+        if (!newItem.text) return res.sendStatus(400)
+        await connection.query(`INSERT INTO compras (text) VALUES ($1)`, [newItem.text]);
+        res.sendStatus(201);
+    } catch {
+        res.sendStatus(500);
+    }
+});
+
 export default app;
